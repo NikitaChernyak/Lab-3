@@ -50,7 +50,7 @@ public class GornerTableModel extends AbstractTableModel {
 				for (int i = 0; i < coefficients.length; i++)
 					result = result * x + coefficients[i];
 				return result;
-		default: return ifСonsecutive();
+		default: return //ifСonsecutive();
 		}
 	}
 	

@@ -34,9 +34,10 @@ public class GornerTableCellRenderer implements TableCellRenderer {
 		String formattedDouble = formatter.format(value);
 		label.setText(formattedDouble);
 		if (col == 1 && needle != null && needle.equals(formattedDouble))
+			panel.setBackground(Color.GREEN);
+		else if (GornerTableModel.getX() > 0 && GornerTableModel.getPolynomialValue() < 0 || GornerTableModel.getX() < 0 && GornerTableModel.getPolynomialValue() > 0)
 			panel.setBackground(Color.RED);
-		else 
-			panel.setBackground(Color.WHITE);
+		else panel.setBackground(Color.WHITE);
 		return panel;
 	}
 			

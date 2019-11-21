@@ -9,6 +9,7 @@ public class GornerTableModel extends AbstractTableModel {
 	private Double from;
 	private Double to;
 	private Double step;
+	private static Double x, polynomialValue;
 	
 	public GornerTableModel(Double from, Double to, Double step, Double[] coefficients) {	
 		this.from = from;
@@ -16,7 +17,15 @@ public class GornerTableModel extends AbstractTableModel {
 		this.step = step;	
 		this.coefficients = coefficients;
 	}
-
+	
+	public static Double getX() {
+		return x;
+	}
+	
+	public static Double getPolynomialValue() {
+		return polynomialValue;
+	}
+	
 	public Double getFrom() {
 		return from;
 	}
@@ -42,15 +51,14 @@ public class GornerTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		double x = from + step * row;
-		Double result = 0.0;
-		
+		x = from + step * row;
+		polynomialValue = 0.0;
+		for (int i = 0; i < coefficients.length; i++)
+			polynomialValue = polynomialValue * x + coefficients[i];
 		switch (col) {
 		case 0: return x;
-		case 1: for (int i = 0; i < coefficients.length; i++)
-					result = result * x + coefficients[i];
-				return result;
-		default: return ifConsecutive(result);
+		case 1: return polynomialValue;
+		default: return ifConsecutive(polynomialValue);
 		}
 	}
 	
@@ -66,19 +74,19 @@ public class GornerTableModel extends AbstractTableModel {
 		switch (col) {
 		case 0:
 		case 1: return Double.class;
-		default: return boolean.class;
+		default: return Boolean.class;
 		}
 	}
 	
 	public boolean ifConsecutive(Double number) {
-		
-		int integer = number.intValue();
+	
+		int integer = Math.abs(number.intValue());
 		Double tempFract = number - integer;    
 		tempFract *= 1e5;
 		int fract = tempFract.intValue();
 		  
-		int nNumbersInInteger = (int)Math.log10(integer) + 1;
-	    int nNumbersInFract = 5; //(int)Math.log10(fract) + 1; 
+		int nNumbersInInteger = String.valueOf(integer).length();
+	    int nNumbersInFract = 5; 
 	    
 	    int[] numbersFromInt = new int[nNumbersInInteger];
 	    int[] numbersFromFract = new int[nNumbersInFract];
@@ -91,19 +99,18 @@ public class GornerTableModel extends AbstractTableModel {
 		for (int i = nNumbersInFract - 1; i >= 0; i--) {
 	        numbersFromFract[i] = fract % 10;
 	        fract /= 10;
-	    }   
+	    }  
 			        
 		if (nNumbersInInteger >= 3)
 			for (int j = 0; j < nNumbersInInteger - 2; j++)
 				if ((numbersFromInt[j] + 1) == numbersFromInt[j+1] && (numbersFromInt[j] + 2) == (numbersFromInt[j+2]))
 					return true;
 					            
-		//if (nNumbersInFract >= 3)
 		for (int j = 0; j < nNumbersInFract - 2; j++)
 			if ((numbersFromFract[j] + 1) == numbersFromFract[j+1] && (numbersFromFract[j] + 2) == (numbersFromFract[j+2]))
 				return true;
-					         
-		return false;  
+		
+		return false;
 	}
 
 }

@@ -31,8 +31,8 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	
-	private static final int WIDTH = 700;
-	private static final int HEIGHT = 500;
+	private static final int WIDTH = 770;
+	private static final int HEIGHT = 540;
 	private Double[] coefficients;
 	private JFileChooser fileChooser = null;
 	// Элементы меню вынесены в поля данных класса, так как ими необходимо
@@ -117,11 +117,9 @@ public class MainFrame extends JFrame {
 		searchValueMenuItem = tableMenu.add(searchValueAction);
 		searchValueMenuItem.setEnabled(false);
 		
-		/////////////////////////////////
-		
 		Action showReferenceAction = new AbstractAction("О программе") {
 			public void actionPerformed(ActionEvent event) {
-				JOptionPane.showMessageDialog(MainFrame.this, "Автор программы: Черняк Никита, 8 группа", "О программе", JOptionPane.OK_OPTION);
+				JOptionPane.showMessageDialog(MainFrame.this, "Автор программы: Черняк Никита, 8 группа", "О программе", JOptionPane.CLOSED_OPTION);
 			}
 		};
 	
@@ -281,22 +279,31 @@ public class MainFrame extends JFrame {
 	public static void main(String[] args) {
 		// Если не задано ни одного аргумента командной строки -
 		// Продолжать вычисления невозможно, коэффиценты неизвестны
-		if (args.length == 0) {
+//		Double[] coefficients = new Double[5];
+//		
+//		coefficients[0] = 1.1;
+//		coefficients[1] = 2.3;
+//		coefficients[2] = -3.7;
+//		coefficients[3] = -4.5;
+//		coefficients[4] = 5.2;
+		
+		if (args.length==0) {
 			System.out.println("Невозможно табулировать многочлен, для которого не задано ни одного коэффициента!");
 			System.exit(-1);
 		}
-		// Зарезервировать места в массиве коэффициентов столько, сколько аргументов командной строки
+			// Зарезервировать места в массиве коэффициентов столько, сколькo аргументов командной строки
 		Double[] coefficients = new Double[args.length];
 		int i = 0;
 		try {
-		// Перебрать аргументы, пытаясь преобразовать их в Double
-			for (String arg: args) 
+			// Перебрать аргументы, пытаясь преобразовать их в Double
+			for (String arg: args) {
 				coefficients[i++] = Double.parseDouble(arg);
-		
+			}
 		}
-		catch (NumberFormatException exeption) {
-		// Если преобразование невозможно - сообщить об ошибке и завершиться
-			System.out.println("Ошибка преобразования строки '" + args[i] + "' в число типа Double");
+		catch (NumberFormatException ex) {
+			// Если преобразование невозможно - сообщить об ошибке и завершиться
+			System.out.println("Ошибка преобразования строки '" +
+			args[i] + "' в число типа Double");
 			System.exit(-2);
 		}
 		

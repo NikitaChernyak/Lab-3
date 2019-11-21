@@ -272,7 +272,7 @@ public class MainFrame extends JFrame {
 			}
 	// Закрыть поток
 			out.close();
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException exeption) {
 	// Исключительную ситуацию "ФайлНеНайден" можно не
 	// обрабатывать, так как мы файл создаѐм, а не открываем
 		}
@@ -296,15 +296,15 @@ public class MainFrame extends JFrame {
 		}
 		catch (NumberFormatException exeption) {
 		// Если преобразование невозможно - сообщить об ошибке и завершиться
-		System.out.println("Ошибка преобразования строки '" + args[i] + "' в число типа Double");
-		System.exit(-2);
+			System.out.println("Ошибка преобразования строки '" + args[i] + "' в число типа Double");
+			System.exit(-2);
 		}
 		
 		// Создать экземпляр главного окна, передав ему коэффициенты
 		MainFrame frame = new MainFrame(coefficients);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		}
+	}
 }
 
 
